@@ -82,7 +82,7 @@ class Search
 	/**
 	 * @return Movie[]|Author[]
 	 */
-	public function find()
+	public function find($returnSingle = FALSE)
 	{
 		if (!$this->filter) {
 			throw new \InvalidArgumentException('Cannot filter with empty query.');
@@ -98,6 +98,9 @@ class Search
 			}
 
 			foreach ($html->find('#search-films li') as $movie) {
+				if($returnSingle === TRUE){
+					return Movie::fromSearch($movie);
+				}
 				$movies[] = Movie::fromSearch($movie);
 			}
 
@@ -107,6 +110,9 @@ class Search
 			$authors = [];
 
 			foreach ($html->find('#search-creators li') as $author) {
+				if($returnSingle === TRUE){
+					return Author::fromSearch($movie);
+				}
 				$authors[] = Author::fromSearch($author);
 			}
 
@@ -120,6 +126,9 @@ class Search
 			}
 
 			foreach ($html->find('#search-users li') as $user) {
+				if($returnSingle === TRUE){
+					return User::fromSearch($movie);
+				}
 				$users[] = User::fromSearch($user);
 			}
 
