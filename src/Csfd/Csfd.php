@@ -25,23 +25,23 @@ class Csfd
 
 
 
-	public function findMovie($filter)
+	public function findMovie($filter, $returnSingle = FALSE)
 	{
-		return $this->getSearch()->movie($filter)->find();
+		return $this->getSearch()->movie($filter)->find($returnSingle);
 	}
 
 
 
-	public function findAuthor($filter)
+	public function findAuthor($filter, $returnSingle = FALSE)
 	{
-		return $this->getSearch()->author($filter)->find();
+		return $this->getSearch()->author($filter)->find($returnSingle);
 	}
 
 
 
-	public function findUser($filter)
+	public function findUser($filter, $returnSingle = FALSE)
 	{
-		return $this->getSearch()->user($filter)->find();
+		return $this->getSearch()->user($filter)->find($returnSingle);
 	}
 
 
