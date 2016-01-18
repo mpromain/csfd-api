@@ -93,10 +93,13 @@ class Movie extends Serializable
 
 		$meta = $html->find('p', 0);
 		if ($meta) {
-			list($genres, $countries, $year) = explode(', ', $meta->innertext);
-			$movie->genres = explode(' / ', $genres);
-			$movie->countries = explode(' / ', $countries);
-			$movie->year = (int) $year;
+			$this->genres = $this->countries = $this->year = NULL;
+			if(preg_match('%(?:(?:(?P<genres>[^,]+)\s*,\s*)?(?P<countries>[^,]+)\s*,\s*)?(?P<year>(?:1[8-9]|2[0-9])[0-9]{2})\s*$%', $meta->innertext, $matches))
+			{
+				$movie->genres = isset($match['genres']) ? explode(' / ', $match['genres']) : NULL;
+				$movie->countries = isset($match['countries']) ? explode(' / ', $match['countries']) : NULL;
+				$movie->year = isset($match['year']) ? (int) $match['year'] : NULL;
+			}
 		}
 		$movie->poster_url = $poster ? Helper::addSchemaIfMissing($poster->src) : NULL;
 
@@ -143,7 +146,7 @@ class Movie extends Serializable
 		}
 		$movie = new self($id);
 
-		$movie->names['cs'] = trim($html->find('h1', 0)->innertext);
+		$movie->names['cs'] = trim(preg_replace('%\<span.*%', '', $html->find('h1', 0)->innertext));
 		$names = $html->find('ul.names', 0);
 		if ($names) {
 			foreach ($names->find('li') as $node) {
