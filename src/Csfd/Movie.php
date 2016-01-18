@@ -93,8 +93,8 @@ class Movie extends Serializable
 
 		$meta = $html->find('p', 0);
 		if ($meta) {
-			$this->genres = $this->countries = $this->year = NULL;
-			if(preg_match('%(?:(?:(?P<genres>[^,]+)\s*,\s*)?(?P<countries>[^,]+)\s*,\s*)?(?P<year>(?:1[8-9]|2[0-9])[0-9]{2})\s*$%', $meta->innertext, $matches))
+			$movie->genres = $movie->countries = $movie->year = NULL;
+			if(preg_match('%(?:(?:(?P<genres>[^,]+)\s*,\s*)?(?P<countries>[^,]+)\s*,\s*)?(?P<year>(?:1[8-9]|2[0-9])[0-9]{2})\s*$%', $meta->innertext, $match))
 			{
 				$movie->genres = isset($match['genres']) ? explode(' / ', $match['genres']) : NULL;
 				$movie->countries = isset($match['countries']) ? explode(' / ', $match['countries']) : NULL;
